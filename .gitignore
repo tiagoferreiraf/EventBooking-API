@@ -47,6 +47,7 @@ x64/
 *.pidb
 *.log
 *.scc
+*migrations
 
 # OS generated files #
 .DS_Store*
