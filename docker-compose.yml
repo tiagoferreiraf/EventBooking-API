@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+    db:
+      image: mysql
+      container_name: mysql-container
+      command: --default-authentication-plugin=mysql_native_password
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+      restart: always
+      ports:
+        - "3306:3306"
+    api:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: appeventbooking-container
+      restart: always
+      ports:
+        - "8000:80"
+      depends_on:
+        - db
