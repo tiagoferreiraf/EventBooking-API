@@ -2,6 +2,7 @@
 using EventBooking.Domain.Exceptions;
 using EventBooking.Domain.Interfaces;
 using EventBooking.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,17 +20,14 @@ namespace EventBooking.Infra.Data.Repository
         {
             _dbContext = dbContext;
         }
+
         public void Create(Event pEvent)
         {
-            try
-            {
-                _dbContext.Event.Add(pEvent);
-                _dbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new("Ocorreu um problema ao criar um usuário");
-            }
+
+            if (GetEventByName(pEvent.Name) != null) throw new Exception("Já existe um evento criado com esse nome");
+            _dbContext.Event.Add(pEvent);
+            _dbContext.SaveChangesAsync();
+            ;
         }
 
         public void Delete(int id)
@@ -41,7 +39,7 @@ namespace EventBooking.Infra.Data.Repository
             }
             catch (Exception)
             {
-                throw new("Ocorreu um problema ao deletar um usuário");
+                throw new("Ocorreu um problema ao deletar um evento");
             }
 
         }
@@ -57,44 +55,37 @@ namespace EventBooking.Infra.Data.Repository
             {
                 throw new("Ocorreu um problema ao buscar evento");
             }
-            
+
         }
 
         public Event GetEvent(int id)
         {
-            try
-            {
-                var lEvent = _dbContext.Event.Where(x => x.Id == id).FirstOrDefault();
-                if (lEvent == null) throw new NotFoundException("Evento não encontrado");
-                return lEvent;
-            }
-            catch (Exception)
-            {
-                throw new("Ocorreu um problema ao buscar o usuário");
-            }
-            
+            var lEvent = _dbContext.Event.Where(x => x.Id == id).FirstOrDefault();
+            if (lEvent == null) throw new NotFoundException("Evento não encontrado");
+            return lEvent;
+        }
+
+        public Event GetEventByName(string nameEvent)
+        {
+
+            var lEvent = _dbContext.Event.Where(e => e.Name.Equals(nameEvent)).FirstOrDefault();
+            return lEvent;
+
         }
 
         public Event Update(int id, Event pEvent)
         {
-            try
-            {
-                var lEvent = _dbContext.Event.FirstOrDefault(x => x.Id == id);
-                if(lEvent == null) throw new NotFoundException("Evento não encontrado");
-                lEvent.Name = pEvent.Name;
-                lEvent.Local = pEvent.Local;
-                lEvent.Capacity = pEvent.Capacity;
-                lEvent.Date = pEvent.Date;
+            var lEvent = _dbContext.Event.FirstOrDefault(x => x.Id == id);
+            if (lEvent == null) throw new NotFoundException("Evento não encontrado");
+            lEvent.Name = pEvent.Name;
+            lEvent.Local = pEvent.Local;
+            lEvent.Capacity = pEvent.Capacity;
+            lEvent.Date = pEvent.Date;
 
-                _dbContext.Event.Update(lEvent);
-                _dbContext.SaveChanges();
-                return lEvent;
-            }
-            catch (Exception)
-            {
-                throw new("Ocorreu um problema ao atualizar os dados do usuário");
-            }
-            
+            _dbContext.Event.Update(lEvent);
+            _dbContext.SaveChanges();
+            return lEvent;
+
         }
     }
 }

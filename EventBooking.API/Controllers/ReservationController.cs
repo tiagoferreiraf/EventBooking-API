@@ -22,7 +22,8 @@ namespace EventBooking.API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] AddReservationCommand reservation)
         {
-            _mediator.Send(reservation);
+            var response = await _mediator.Send(reservation);
+            if (response == null) return BadRequest();
             return Ok();
         }
 
@@ -31,7 +32,7 @@ namespace EventBooking.API.Controllers
         public async Task<IActionResult> GetAllReservations(int id)
         {
             var query = new GetAllReservationsByUserQuery(id);
-            var response = _mediator.Send(query);
+            var response = await _mediator.Send(query);
             if (response == null) return BadRequest();
             return Ok(response);
         }

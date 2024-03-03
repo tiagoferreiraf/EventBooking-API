@@ -1,4 +1,5 @@
-﻿using EventBooking.Domain.Entities;
+﻿using EventBooking.Application.Commands.AddReservation;
+using EventBooking.Domain.Entities;
 using EventBooking.Domain.Exceptions;
 using EventBooking.Domain.Interfaces;
 using EventBooking.Domain.Models;
@@ -22,7 +23,7 @@ namespace EventBooking.Application.Commands.UpdateReservation
 
         public Task<ReservationViewModel> Handle(UpdateReservationCommand request, CancellationToken cancellationToken)
         {
-
+            ValidRequest(request);
             var lReservation = _reservationRepository.GetReservation(request.Id);
             lReservation.ReservationDate = request.ReservationDate;
             lReservation.QuantityTickets = request.QuantityTickets;
@@ -35,6 +36,11 @@ namespace EventBooking.Application.Commands.UpdateReservation
                ReservationDate = response.ReservationDate,
             };
             return Task.FromResult(reservationModel);
+        }
+        public void ValidRequest(UpdateReservationCommand request)
+        {
+            if (request.QuantityTickets == 0) throw new RequestArgumentException("Quantidade de tickets deve ser maior que zero");
+            if (request.ReservationDate < DateTime.Now) throw new RequestArgumentException("Data não pode ser menor que a data atual");
         }
     }
 }

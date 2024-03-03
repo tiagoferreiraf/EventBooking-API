@@ -31,7 +31,6 @@ namespace EventBooking.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthorizeUserQuery user)
         {
-
             var result = await _mediator.Send(user);
             if (result == null) return BadRequest();
             return Ok(new

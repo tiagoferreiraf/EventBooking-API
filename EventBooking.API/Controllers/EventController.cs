@@ -23,8 +23,9 @@ namespace EventBooking.API.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody]AddEventCommand pEvent)
         {
-           _mediator.Send(pEvent);
-            return Created();
+           var response = _mediator.Send(pEvent);
+           if (response == null) return BadRequest();
+            return Ok(response);
         }
 
         [HttpGet("GetAll")]

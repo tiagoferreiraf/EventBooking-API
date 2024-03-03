@@ -1,6 +1,7 @@
 ﻿using EventBooking.Domain.Entities;
 using EventBooking.Domain.Exceptions;
 using EventBooking.Domain.Interfaces;
+using EventBooking.Domain.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EventBooking.Application.Commands.AddEvent
 {
-    public class AddEventCommandHandler : IRequestHandler<AddEventCommand, Unit>
+    public class AddEventCommandHandler : IRequestHandler<AddEventCommand, EventViewModel>
     {
         private readonly IEventRepository _eventRepository;
 
@@ -19,22 +20,28 @@ namespace EventBooking.Application.Commands.AddEvent
             _eventRepository = eventRepository;
         }
 
-        public Task<Unit> Handle(AddEventCommand request, CancellationToken cancellationToken)
+        public async Task<EventViewModel> Handle(AddEventCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                if (request == null) throw new Exception("campos vazios");
-                var lEvent = new Event(request.Name, request.Date, request.Capacity, request.Local);
-                _eventRepository.Create(lEvent);
-                return Task.FromResult(Unit.Value);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            
+            ValidRequest(request);
+            var lEvent = new Event(request.Name, request.Date, request.Capacity, request.Local);
+            _eventRepository.Create(lEvent);
+            var lEventViewModel = new EventViewModel
+            {
+                Local = lEvent.Local,
+                Capacity = lEvent.Capacity,
+                Date = lEvent.Date,
+                NameEvent = lEvent.Name,
+            };
+            return lEventViewModel;
 
+        }
+        public void ValidRequest(AddEventCommand request)
+        {
+            if (string.IsNullOrEmpty(request.Name)) throw new RequestArgumentException("Nome não preenchido");
+            if (string.IsNullOrEmpty(request.Local)) throw new RequestArgumentException("Local não preenchido");
+            if (request.Capacity == 0) throw new RequestArgumentException("Capacidade deve ser maior que zero");
+            if (request.Date < DateTime.Now) throw new RequestArgumentException("Data não pode ser menor que a data atual");
         }
     }
 }

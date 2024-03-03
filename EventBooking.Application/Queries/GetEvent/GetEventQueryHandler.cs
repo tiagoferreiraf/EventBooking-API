@@ -1,4 +1,5 @@
-﻿using EventBooking.Domain.Interfaces;
+﻿using EventBooking.Domain.Entities;
+using EventBooking.Domain.Interfaces;
 using EventBooking.Domain.Models;
 using MediatR;
 using System;
@@ -31,5 +32,20 @@ namespace EventBooking.Application.Queries.GetEvent
             };
             return Task.FromResult(EventModel);
         }
+
+        public EventViewModel GetEventByName(string name)
+        {
+            var lEvent = _eventRepository.GetEventByName(name);
+            var eventViewModel = new EventViewModel
+            {
+                Local = lEvent.Local,
+                Capacity = lEvent.Capacity,
+                Date = lEvent.Date,
+                Id = lEvent.Id,
+                NameEvent = lEvent.Name,
+            };
+            return eventViewModel;
+        }
+
     }
 }

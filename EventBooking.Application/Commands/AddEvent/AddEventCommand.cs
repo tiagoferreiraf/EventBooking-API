@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EventBooking.Domain.Models;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EventBooking.Application.Commands.AddEvent
 {
-    public class AddEventCommand : IRequest<Unit>
+    public class AddEventCommand : IRequest<EventViewModel>
     {
         public string Name { get; set; }
         public DateTime Date { get; set; }

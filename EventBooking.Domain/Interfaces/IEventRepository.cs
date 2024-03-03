@@ -14,6 +14,9 @@ namespace EventBooking.Domain.Interfaces
         void Delete(int id);
         List<Event> GetAllEvents();
         Event GetEvent(int id);
-        
+
+        Event GetEventByName(string nameEvent);
+
+
     }
 }
