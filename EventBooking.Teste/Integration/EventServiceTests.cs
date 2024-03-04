@@ -18,13 +18,6 @@ namespace EventBooking.Teste.Integration
     [TestClass]
     public class EventServiceTests
     {
-
-        private readonly ApplicationContext _context;
-        //public EventServiceTests(ApplicationContext context)
-        //{
-        //    _context = context;
-        //}
-
         [TestMethod]
         public async Task QuandoCommandValidoEntaoRetornarEvent()
         {

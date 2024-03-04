@@ -12,18 +12,18 @@ services:
       restart: always
       ports:
         - "3306:3306"
-    api:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      networks:
-       - netapp
-      container_name: appeventbooking-container
-      restart: always
-      ports:
-        - "8000:80"
-      depends_on:
-        - db
+    # api:
+    #   build:
+    #     context: .
+    #     dockerfile: Dockerfile
+    #   networks:
+    #    - netapp
+    #   container_name: appeventbooking-container
+    #   restart: always
+    #   ports:
+    #     - "8000:80"
+    #   depends_on:
+    #     - db
 
 networks:
   netapp:
