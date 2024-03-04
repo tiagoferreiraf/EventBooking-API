@@ -8,7 +8,7 @@ All routes are available in the Swagger documentation, facilitating interaction 
 
 ### Installation
 ```bash
-- docker
+Docker
 ```
 
 
@@ -18,8 +18,17 @@ To run the application, follow these steps:
 
 - Clone the project to your local environment.
 - Navigate to the project's root folder, open the terminal, and run the command (`docker-compose up -d`). This command will start the database. Due to complications in the docker-compose configuration, only the database will be started. To run the API locally, you will need to start the API manually.
-- Open Visual Studio and in the Package Manager Console, run the command (`Add-Migration`). This command is necessary to generate migrations that will be mapped through the mappings, subsequently creating tables in the database.
+- Open Visual Studio and in the Package Manager Console, run the command (`Add-Migration`). This command is necessary to generate migrations that will be mapped through the mappings, subsequently creating tables in the database. 
+  <br><strong>Note: Ensure that the default project is set to EventBooking.Infra.Data..</strong>
+  ![Add-Migration](https://github.com/tiagoferreiraf/EventBooking-API/assets/64914744/f944e534-5641-4689-82b9-5b081be33131)
+  ![PastaMigrations](https://github.com/tiagoferreiraf/EventBooking-API/assets/64914744/19ced195-9680-4973-acf2-164b031f3cc1)
+
 - Run the command  (`Update-Database`) to create tables in the database based on the generated migrations.
+   ![Update-Database](https://github.com/tiagoferreiraf/EventBooking-API/assets/64914744/d4412bbc-c012-4192-a007-106cbcd7fd96)
+    ![BancoCriadoAtualizado](https://github.com/tiagoferreiraf/EventBooking-API/assets/64914744/45f5865c-a915-46ca-a710-9984a3a79fae)
+
+  
+
 - Set the EventBooking.API as the startup project.
 - Run the API and test the functionalities.
 
