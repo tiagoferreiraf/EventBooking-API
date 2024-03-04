@@ -31,20 +31,5 @@ namespace EventBooking.Infra.Data.Repository
             }
             
         }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User GetUserById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User Update(User usuario)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

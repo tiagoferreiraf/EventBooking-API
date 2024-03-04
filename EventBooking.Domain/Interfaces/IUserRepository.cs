@@ -10,8 +10,5 @@ namespace EventBooking.Domain.Interfaces
     public interface IUserRepository
     {
         public void Create(User usuario);
-        void Delete(int id);
-        User Update(User usuario);
-        User GetUserById(int id);
     }
 }

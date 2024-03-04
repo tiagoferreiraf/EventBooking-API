@@ -27,7 +27,6 @@ namespace EventBooking.Infra.Data.Repository
             if (GetEventByName(pEvent.Name) != null) throw new Exception("Já existe um evento criado com esse nome");
             _dbContext.Event.Add(pEvent);
             _dbContext.SaveChangesAsync();
-            ;
         }
 
         public void Delete(int id)

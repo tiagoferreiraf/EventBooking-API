@@ -4,6 +4,8 @@ services:
       image: mysql
       container_name: mysql-container
       command: --default-authentication-plugin=mysql_native_password
+      networks:
+       - netdb
       environment:
           MYSQL_DATABASE: EventBookingDB
           MYSQL_ROOT_PASSWORD: root
@@ -14,9 +16,15 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
+      networks:
+       - netapp
       container_name: appeventbooking-container
       restart: always
       ports:
         - "8000:80"
       depends_on:
         - db
+
+networks:
+  netapp:
+  netdb:

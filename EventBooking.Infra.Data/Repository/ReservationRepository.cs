@@ -12,7 +12,7 @@ namespace EventBooking.Infra.Data.Repository
 {
     public class ReservationRepository : IReservationRepository
     {
-         private readonly ApplicationContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
         public ReservationRepository(ApplicationContext dbContext)
         {
@@ -43,37 +43,24 @@ namespace EventBooking.Infra.Data.Repository
             {
                 throw new("Ocorreu um problema ao deletar a reserva");
             }
-           
+
         }
 
         public Reservation GetReservation(int id)
         {
-            try
-            {
-                var lReservation = _dbContext.Reservation.Where(x => x.Id == id).FirstOrDefault();
-                if (lReservation == null) throw new NotFoundException("Reserva não encontrada");
-                return lReservation;
-            }
-            catch (Exception)
-            {
-                throw new("Ocorreu um problema ao buscar a reserva");
-            }
+            var lReservation = _dbContext.Reservation.Where(x => x.Id == id).FirstOrDefault();
+            if (lReservation == null) throw new NotFoundException("Reserva não encontrada");
+            return lReservation;
+
         }
 
 
         public List<Reservation> GetReservationsByUser(int userId)
         {
-            try
-            {
-                var listReservations = _dbContext.Reservation.Where(x => x.UserId == userId).ToList();
-                if (listReservations == null) throw new NotFoundException("Reservas não encontrada");
-                return listReservations;
-            }
-            catch (Exception)
-            {
-                throw new("Ocorreu um problema ao buscar reservas");
-            }
-        
+
+            var listReservations = _dbContext.Reservation.Where(x => x.UserId == userId).ToList();
+            if (listReservations == null) throw new NotFoundException("Reservas não encontrada");
+            return listReservations;
         }
 
         public Reservation Update(int id, Reservation reservation)
